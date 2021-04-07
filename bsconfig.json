@@ -1,0 +1,29 @@
+{
+  "name": "bs-optics",
+  "version": "0.0.0",
+  "bsc-flags": ["-bs-super-errors"],
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    },
+    {
+      "dir": "tests",
+      "subdirs": true,
+      "type": "dev"
+    }
+  ],
+  "bs-dependencies": ["reason-test-framework"],
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
+  },
+  "suffix": ".bs.js",
+  "namespace": true,
+  "warnings": {
+    "number": "+A-4-9-44-42-48",
+    "warning": "+A-3-44-102-103"
+  },
+  "ppx-flags": [],
+  "refmt": 3
+}

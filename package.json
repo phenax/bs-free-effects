@@ -1,0 +1,22 @@
+{
+  "name": "bs-free-effects",
+  "version": "0.0.0",
+  "description": "__",
+  "main": "__",
+  "repository": "https://github.com/phenax/bs-free-effects",
+  "author": "Akshay Nair <phenax5@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "bsb -clean-world -make-world",
+    "clean": "bsb -clean-world",
+    "watch": "bsb -make-world -w",
+    "test": "jest",
+    "test:watch": "concurrently 'yarn start' 'yarn test --watch' -c 'magenta,blue' -n 'build,test'"
+  },
+  "devDependencies": {
+    "bs-platform": "^9.0.1",
+    "concurrently": "^6.0.0",
+    "jest": "^26.6.3",
+    "reason-test-framework": "^0.3.2"
+  }
+}
