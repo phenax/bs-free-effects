@@ -12,12 +12,22 @@ module Make(Eff: EFFECT) = struct
 
   let liftEff fa = Free (Eff.map pure fa)
 
-  let rec flatMap fn eff = match eff with
+  let rec flatMap fn = function
     | Pure a -> fn a
     | Free m -> Free (Eff.map (flatMap fn) m)
 
-  let rec interpreter handler eff = match eff with
+  let rec interpreter handler = function
     | Pure x -> x
     | Free m -> interpreter handler (handler m)
 end
+
+(*let (<<) f g x = f (g x)*)
+
+(*module Compose(A: EFFECT)(B: EFFECT) = struct*)
+  (*type ('a) t = [ ('a) A.t | ('a) B.t ]*)
+
+  (*let map fn eff = match eff with*)
+    (*| #A.t as a -> A.map fn a*)
+    (*| #B.t as b -> B.map fn b*)
+(*end*)
 
