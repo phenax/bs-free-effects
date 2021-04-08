@@ -11,7 +11,7 @@
     "clean": "bsb -clean-world",
     "watch": "bsb -make-world -w",
     "test": "jest",
-    "test:watch": "concurrently 'yarn start' 'yarn test --watch' -c 'magenta,blue' -n 'build,test'"
+    "test:watch": "yarn test --watchAll"
   },
   "devDependencies": {
     "bs-platform": "^9.0.1",
