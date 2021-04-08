@@ -5,14 +5,17 @@ open State.Effect;
 let getTagName = [%raw "x => x.NAME"];
 
 describe("#flatMap", ({ test }) => {
-  test("should flatten return with State.get", ({ expect }) => {
-    let eff = return("heklo") |> flatMap(_ => State.get);
+  test("should flatten return with ops", ({ expect }) => {
+    let eff = return("heklo")
+      |> flatMap(State.set)
+      |> flatMap(_ => State.get);
     let result = eff |> State.run(createStateHandler("foobar"));
-    expect.string(result).toEqual("foobar");
+    expect.string(result).toEqual("heklo");
   });
 
   test("should any two operation effects", ({ expect }) => {
-    let eff = State.set("fuck") |> flatMap(_ => State.get);
+    let eff = State.set("fuck")
+      |> flatMap(_ => State.get);
     let result = eff |> State.run(createStateHandler("foobar"));
     expect.string(result).toEqual("fuck");
   });

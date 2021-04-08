@@ -35,6 +35,7 @@ module Make(Eff: EFFECT) = struct
     | Free m -> Free (Eff.map (flatMap fn) m)
 
   let seq ef = flatMap (const ef)
+  let then_ = seq
 
   let rec fold fn = function
     | Pure x -> x

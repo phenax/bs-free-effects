@@ -18,7 +18,7 @@ describe("FreeEffects#State", ({ test }) => {
     open State.Effect;
     let eff = State.get
       |> flatMap(state => State.set(state ++ ", world!"))
-      |> flatMap(_ => State.get);
+      |> then_(State.get);
 
     let result = eff |> State.run(createStateHandler("Hello"));
     expect.string(result).toEqual("Hello, world!");
@@ -27,9 +27,9 @@ describe("FreeEffects#State", ({ test }) => {
   test("should allow return as the first part of the chain", ({ expect }) => {
     open State.Effect;
     let eff = return(())
-      |> flatMap(_ => State.get)
+      |> then_(State.get)
       |> flatMap(state => State.set(state ++ ", world!"))
-      |> flatMap(_ => State.get);
+      |> then_(State.get);
 
     let result = eff |> State.run(createStateHandler("Hello"));
     expect.string(result).toEqual("Hello, world!");
