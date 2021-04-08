@@ -10,6 +10,12 @@ describe("#flatMap", ({ test }) => {
     let result = eff |> State.run(createStateHandler("foobar"));
     expect.string(result).toEqual("foobar");
   });
+
+  test("should any two operation effects", ({ expect }) => {
+    let eff = State.set("fuck") |> flatMap(_ => State.get);
+    let result = eff |> State.run(createStateHandler("foobar"));
+    expect.string(result).toEqual("fuck");
+  });
 });
 
 describe("#retract", ({ test }) => {
