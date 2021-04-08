@@ -34,10 +34,9 @@ module Make(Eff: EFFECT) = struct
     | Pure a -> fn a
     | Free m -> Free (Eff.map (flatMap fn) m)
 
-  (* Change to fold *)
-  let rec interpreter handler = function
+  let rec fold fn = function
     | Pure x -> x
-    | Free m -> interpreter handler (handler m)
+    | Free m -> fold fn (fn m)
 end
 
 (*let (<<) f g x = f (g x)*)

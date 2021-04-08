@@ -12,7 +12,7 @@ module StateEffect' = {
 
 module State = {
   module Effect = Make(StateEffect');
-  let run = Effect.interpreter;
+  let run = Effect.fold;
   let get = Effect.liftF(`Get(id));
   let set = value => Effect.liftF(`Set(value, id));
 };
