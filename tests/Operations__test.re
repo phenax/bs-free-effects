@@ -18,6 +18,20 @@ describe("#flatMap", ({ test }) => {
   });
 });
 
+describe("#seq", ({ test }) => {
+  test("should chain pure with State.get", ({ expect }) => {
+    let eff = pure("heklo") |> seq(State.get);
+    let result = eff |> State.run(createStateHandler("foobar"));
+    expect.string(result).toEqual("foobar");
+  });
+
+  test("should any two operation effects", ({ expect }) => {
+    let eff = State.set("fuck") |> seq(State.get);
+    let result = eff |> State.run(createStateHandler("foobar"));
+    expect.string(result).toEqual("fuck");
+  });
+});
+
 describe("#retract", ({ test }) => {
   test("should retract effect operation", ({ expect }) => {
     let op = State.get |> retract;

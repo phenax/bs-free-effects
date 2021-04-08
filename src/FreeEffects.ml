@@ -1,3 +1,5 @@
+open FreeEffects__Utils;;
+
 module type EFFECT = sig
   type ('a) t
   val map : ('a -> 'b) -> ('a) t -> ('b) t
@@ -24,8 +26,6 @@ module Make(Eff: EFFECT) = struct
 
   (* join : ('a t) t -> 'a t *)
 
-  (* seq : 'a t -> 'a t -> 'a t *)
-
   (* Async helpers (promise) *)
   (* Use bastet *)
   (* Infix operators *)
@@ -33,6 +33,8 @@ module Make(Eff: EFFECT) = struct
   let rec flatMap fn = function
     | Pure a -> fn a
     | Free m -> Free (Eff.map (flatMap fn) m)
+
+  let seq ef = flatMap (const ef)
 
   let rec fold fn = function
     | Pure x -> x
