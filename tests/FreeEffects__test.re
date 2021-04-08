@@ -2,8 +2,8 @@ open TestFramework;
 open TestUtils;
 
 describe("FreeEffects#State", ({ test }) => {
-  test("should return a pure value", ({ expect }) => {
-    let eff = State.Effect.pure("heklo");
+  test("should return a return value", ({ expect }) => {
+    let eff = State.Effect.return("heklo");
     let result = eff |> State.run(createStateHandler("foobar"));
     expect.string(result).toEqual("heklo");
   });
@@ -24,9 +24,9 @@ describe("FreeEffects#State", ({ test }) => {
     expect.string(result).toEqual("Hello, world!");
   });
 
-  test("should allow pure as the first part of the chain", ({ expect }) => {
+  test("should allow return as the first part of the chain", ({ expect }) => {
     open State.Effect;
-    let eff = pure(())
+    let eff = return(())
       |> flatMap(_ => State.get)
       |> flatMap(state => State.set(state ++ ", world!"))
       |> flatMap(_ => State.get);

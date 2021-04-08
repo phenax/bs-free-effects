@@ -5,8 +5,8 @@ open State.Effect;
 let getTagName = [%raw "x => x.NAME"];
 
 describe("#flatMap", ({ test }) => {
-  test("should flatten pure with State.get", ({ expect }) => {
-    let eff = pure("heklo") |> flatMap(_ => State.get);
+  test("should flatten return with State.get", ({ expect }) => {
+    let eff = return("heklo") |> flatMap(_ => State.get);
     let result = eff |> State.run(createStateHandler("foobar"));
     expect.string(result).toEqual("foobar");
   });
@@ -19,8 +19,8 @@ describe("#flatMap", ({ test }) => {
 });
 
 describe("#seq", ({ test }) => {
-  test("should chain pure with State.get", ({ expect }) => {
-    let eff = pure("heklo") |> seq(State.get);
+  test("should chain return with State.get", ({ expect }) => {
+    let eff = return("heklo") |> seq(State.get);
     let result = eff |> State.run(createStateHandler("foobar"));
     expect.string(result).toEqual("foobar");
   });
@@ -39,8 +39,8 @@ describe("#retract", ({ test }) => {
     expect.string(op |> getTagName).toEqual("Get");
   });
 
-  test("should not retract pure operation", ({ expect }) => {
-    let op = pure("foobar") |> retract;
+  test("should not retract return operation", ({ expect }) => {
+    let op = return("foobar") |> retract;
     expect.bool(op |> Belt.Option.isNone).toBe(true);
   });
 });
@@ -55,8 +55,8 @@ describe("#hoist", ({ test }) => {
     expect.string(eff |> retract |> getTagName).toEqual("Set");
   });
 
-  test("should not affect pure effect", ({ expect }) => {
-    let eff = pure("foobar") |> hoist(switcheroo);
+  test("should not affect return effect", ({ expect }) => {
+    let eff = return("foobar") |> hoist(switcheroo);
     expect.bool(eff |> retract |> Belt.Option.isNone).toBe(true);
   });
 });

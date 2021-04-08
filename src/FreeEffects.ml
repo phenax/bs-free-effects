@@ -9,8 +9,9 @@ module Make(Eff: EFFECT) = struct
   type ('a, 'ret) t = 
     | Pure of 'ret
     | Free of ((('a, 'ret) t) Eff.t)
+    [@@bs.deriving {accessors}]
 
-  let pure x = Pure x
+  let return x = Pure x
 
   let liftF fa = Free (Eff.map pure fa)
 
@@ -23,7 +24,6 @@ module Make(Eff: EFFECT) = struct
     | Free m -> Free (fn m)
 
   (* map : ('a -> 'b) -> 'a t -> 'b t *)
-
   (* join : ('a t) t -> 'a t *)
 
   (* Async helpers (promise) *)
