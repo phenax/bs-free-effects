@@ -1,6 +1,5 @@
 open FreeEffects;
-
-let id = x => x;
+open FreeEffects__Utils;
 
 module StateEffect' = {
   type t('a) = [ `Get(string => 'a) | `Set(string, unit => 'a) ];
@@ -21,10 +20,10 @@ let createStateHandler = (initialState) => {
   let state = ref(initialState);
 
   fun
-    | `Get(resume) => resume(state.contents)
-    | `Set(value, resume) => {
-      state.contents = value;
-      resume(());
-    }
+  | `Get(resume) => resume(state.contents)
+  | `Set(value, resume) => {
+    state.contents = value;
+    resume(());
+  }
 };
 

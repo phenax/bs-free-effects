@@ -20,7 +20,7 @@ module Make(Eff: EFFECT) = struct
     | Pure x -> Pure x
     | Free m -> Free (fn m)
 
-  (* map: ('a -> 'b) -> 'a t -> 'b t *)
+  (* map : ('a -> 'b) -> 'a t -> 'b t *)
 
   (* join : ('a t) t -> 'a t *)
 
@@ -38,8 +38,6 @@ module Make(Eff: EFFECT) = struct
     | Pure x -> x
     | Free m -> fold fn (fn m)
 end
-
-(*let (<<) f g x = f (g x)*)
 
 (*module Compose(A: EFFECT)(B: EFFECT) = struct*)
 (*type ('a) t = [ ('a) A.t | ('a) B.t ]*)
