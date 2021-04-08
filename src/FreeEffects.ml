@@ -10,12 +10,31 @@ module Make(Eff: EFFECT) = struct
 
   let pure x = Pure x
 
-  let liftEff fa = Free (Eff.map pure fa)
+  let liftF fa = Free (Eff.map pure fa)
+
+  let retract = function
+    | Pure _ -> None
+    | Free m -> Some(m)
+
+  let hoist fn = function
+    | Pure x -> Pure x
+    | Free m -> Free (fn m)
+
+  (* map: ('a -> 'b) -> 'a t -> 'b t *)
+
+  (* join : ('a t) t -> 'a t *)
+
+  (* seq : 'a t -> 'a t -> 'a t *)
+
+  (* Async helpers (promise) *)
+  (* Use bastet *)
+  (* Infix operators *)
 
   let rec flatMap fn = function
     | Pure a -> fn a
     | Free m -> Free (Eff.map (flatMap fn) m)
 
+  (* Change to fold *)
   let rec interpreter handler = function
     | Pure x -> x
     | Free m -> interpreter handler (handler m)
@@ -24,10 +43,10 @@ end
 (*let (<<) f g x = f (g x)*)
 
 (*module Compose(A: EFFECT)(B: EFFECT) = struct*)
-  (*type ('a) t = [ ('a) A.t | ('a) B.t ]*)
+(*type ('a) t = [ ('a) A.t | ('a) B.t ]*)
 
-  (*let map fn eff = match eff with*)
-    (*| #A.t as a -> A.map fn a*)
-    (*| #B.t as b -> B.map fn b*)
+(*let map fn eff = match eff with*)
+(*| #A.t as a -> A.map fn a*)
+(*| #B.t as b -> B.map fn b*)
 (*end*)
 
