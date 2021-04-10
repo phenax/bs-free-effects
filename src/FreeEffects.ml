@@ -1,17 +1,17 @@
 open FreeEffects__Utils;;
 
 module type EFFECT = sig
-  type ('a) t
-  val map : ('a -> 'b) -> ('a) t -> ('b) t
+  type 'a t
+  val map : ('a -> 'b) -> 'a t -> 'b t
 end
 
 module Make(Eff: EFFECT) = struct
-  type ('a, 'ret) t = 
-    | Pure of 'ret
-    | Free of ((('a, 'ret) t) Eff.t)
-    [@@bs.deriving {accessors}]
+  type 'a t = 
+    | Pure of 'a
+    | Free of 'a t Eff.t
+  [@@bs.deriving accessors]
 
-  let return x = Pure x
+  let return = pure
 
   let liftF fa = Free (Eff.map pure fa)
 
@@ -28,6 +28,7 @@ module Make(Eff: EFFECT) = struct
 
   (* Async helpers (promise) *)
   (* Use bastet *)
+  (* Use GADTs *)
   (* Infix operators *)
 
   let rec flatMap fn = function
